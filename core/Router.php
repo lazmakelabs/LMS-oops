@@ -64,8 +64,8 @@ class Router{
 
 
             if(preg_match($pattern, $path, $matches)){
-                $index = array_search($route, $matches);
-                $handler = $route[$index]['handler'];
+                $index = array_search($route, $routes);
+                $handler = $routes[$index]['handler'];
                 return $handler($matches);
             }
         }
