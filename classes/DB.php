@@ -35,13 +35,96 @@ class DB {
                 }
             }
             if ($this->_query->execute()) {
-                echo 'Success';
                 $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);
                 $this->_count = $this->_query->rowCount();
             } else {
                 $this->_error = true;
-                echo 'Query Failed';
+                }
+        }
+        return $this;
+    }
+
+    public function action($action, $table, $where= array()) {
+        if(count($where) === 3) {
+            $operators = array('=','>','<','>=','<=');
+
+            $field      = $where[0];
+            $operator   = $where[1];
+            $value      = $where[2];
+
+            if(in_array($operator, $operators)){
+                $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
+
+                if($this->query($sql, array($value))) {
+                    return $this;
+                }
             }
         }
+        return false;
+    }
+
+    public function get($table, $where) {
+        return $this->action('SELECT *', $table, $where);
+    }
+
+    public function delete($table, $where) {
+        return $this->action('DELETE', $table, $where);
+    }
+
+    public function insert($table, $fields= array()){
+        if(count($fields)) {
+            $keys = array_keys($fields);
+            $values = null;
+            $x = 1; 
+
+            foreach($fields as $field){
+                $values .= "?";
+                if($x<count($fields)){
+                   $values .=", ";
+                }
+                $x++;
+            }
+            $sql = "INSERT INTO {$table} (`".implode('`,`', $keys)."`) VALUES ({$values})";
+
+            if(!$this->query($sql, $fields)->error()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function update($table, $E_mail, $fields){
+        $set = '';
+        $x = 1;
+
+        foreach($fields as $name => $value){
+            $set .= "{$name} = ?";
+            if($x<count($fields)) {
+                $set .= ', ';
+            }
+            $x++;
+        }
+        $sql = "UPDATE {$table} SET {$set} WHERE E_mail = '{$E_mail}';";
+
+
+        if(!$this-> query($sql, $fields)->error()){
+            return true;
+        }
+        return false;
+    }
+
+    public function results(){
+        return $this->_results;
+    }
+
+    public function first(){
+        return $this->_results[0];
+    }
+    public function error(){
+        return $this->_error;
+    }
+
+    public function count(){
+        return $this->_count;
     }
 }

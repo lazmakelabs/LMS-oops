@@ -2,4 +2,4 @@
 
 require_once "core/init.php";
 
-DB::getInstance()->query("SELECT * FROM register");
+$userInsert = DB::getInstance()->delete("register", array("E_mail", "=", "Venkat@gmail.com"));
