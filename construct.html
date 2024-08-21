@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Under Construction</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <!-- Index CSS -->
+    <link href="./index.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="container mx-auto fixed top-0">
+        <!-- Navigation Bar -->
+        <nav class="flex justify-between p-6 items-center">
+            <img src="./assets/makelablogo.png" class="w-1/2 md:w-1/6 h-auto" alt="Make Labs Logo">
+            <!-- Small screen button -->
+            <div class="block md:hidden">
+
+                <svg id="menu-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+                </svg>
+
+            </div>
+            <!-- Navigation links -->
+            <div class="hidden md:flex">
+                <ul class="flex space-x-5">
+                    <li><a href="./" class="hover:underline">Home</a></li>
+                   
+                </ul>
+            </div>
+        </nav>
+        <!-- Small screen menu -->
+        <div id="menu" class="hidden md:hidden text-center mb-4">
+            <ul class="space-y-2 p-4 bg-gray-100">
+                <li><a href="./" class="block text-black hover:underline">Home</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--under working-->
+
+    <div class="text-center p-10 bg-white rounded-lg shadow-lg mt-20">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Page Under Construction</h1>
+        <p class="mt-4 text-lg text-gray-600">We're working hard to bring you this page. Please check back soon.</p>
+        <div class="mt-6">
+            <a href="./index.html"
+                class="inline-block bg-blue text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Go
+                to Homepage</a>
+        </div>
+    </div>
+
+    <footer class="py-10 text-center bg-gray-800 text-white text-sm mt-10 fixed bottom-0 w-full">
+        &copy; <span id="year"></span> <a href="https://makelabs.co.in/" class="text-sky">Make Labs</a>
+    </footer>
+    <!-- JavaScript for toggle functionality -->
+    <script>
+        document.getElementById('menu-btn').addEventListener('click', function () {
+            document.getElementById('menu').classList.toggle('hidden');
+        });
+
+        // Set the current year in the footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
