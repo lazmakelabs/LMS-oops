@@ -68,7 +68,6 @@ class Validate {
                         break;
 
                         case 'dim':
-                            print_r($_FILES[$item]);
                             if (isset($_FILES[$item]) && $_FILES[$item]['error'] === 0) {
                                 $img = null;
                                 $fileContent = $_FILES[$item]["tmp_name"];
