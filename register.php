@@ -66,7 +66,7 @@
     <!-- TailwindCSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Index CSS -->
-    <link href="../index.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 </head>
@@ -95,7 +95,7 @@
             </div>
             <div class="hidden md:flex md:space-x-5">
                 <a href="./register.php" class="bg-blue text-white p-3 rounded-lg">Register</a>
-                <a href="../login/login.php" class="my-auto">Log In</a>
+                <a href="./login.php" class="my-auto">Log In</a>
             </div>
         </nav>
     </div>
@@ -107,7 +107,7 @@
             <li><a href="../Aboutus.html" class="block text-black hover:underline">About us</a></li>
             <li><a href="../contact.html" class="block text-black hover:underline">Contact</a></li>
             <li><a href="./register.php" class="block text-black hover:underline">Register</a></li>
-            <li><a href="../login/login.php" class="block text-black hover:underline">Log In</a></li>
+            <li><a href="./login.php" class="block text-black hover:underline">Log In</a></li>
         </ul>
     </div>
 

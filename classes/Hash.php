@@ -8,11 +8,11 @@ class Hash {
         return $hashed;
     }
 
-    public static function salt() {
-
-    }
-
-    public static function unique() {
-        
+    public static function check($pwd, $password){
+        if (password_verify($password,$pwd)){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

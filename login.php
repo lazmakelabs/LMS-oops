@@ -2,7 +2,36 @@
 require_once 'core/init.php';
 
 if(Session::exists('Home')){
-    echo '<p>' . Session::flash('Home') . '</p>';
+    // echo '<p>' . Session::flash('Home') . '</p>';
+}
+
+
+if(Input::exists()){
+    if (Token::check(Input::get('token'))) {
+        $validate = new Validate();
+        $validation = $validate->check($_POST, array(
+            'Email' => array(
+                'required' => true 
+            ),
+            'Password' => array(
+                'required' => true
+            )
+        ));
+        if ($validation -> passed()) {
+            $user = new User();
+            $login = $user->login(Input::get('Email'), Input::get('Password'));
+
+            if($login) {
+                echo '<p>Success</p>';
+            } else {
+                echo '<p>Sorry, logging in failed.</p>';
+            }
+        } else {
+            foreach($validation->errors() as $errors){
+                echo "<p class = 'text-red-400'>".$errors."</p>";
+            }
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +45,7 @@ if(Session::exists('Home')){
     <!--tailwindcss-->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!--index css-->
-    <link href="../index.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 </head>
@@ -26,7 +55,7 @@ if(Session::exists('Home')){
     <div class="container mx-auto">
         <!--nav bar-->
         <nav class="flex justify-between p-6 items-center">
-            <img src="../assets/makelablogo.png" class="w-1/2 md:w-1/6 h-auto" alt="Make Labs Logo">
+            <img src="./assets/makelablogo.png" class="w-1/2 md:w-1/6 h-auto" alt="Make Labs Logo">
             <!--nav bar small screen button-->
             <!--small screen-->
             <div class="block md:hidden">
@@ -48,7 +77,7 @@ if(Session::exists('Home')){
             </div>
 
             <div class="hidden md:flex md:space-x-5">
-                <a href="../register/register.php" class="bg-blue text-white p-3 rounded-lg">Register</a>
+                <a href="./register.php" class="bg-blue text-white p-3 rounded-lg">Register</a>
                 <a href="./login.php" class="my-auto">Log In</a>
             </div>
 
@@ -67,10 +96,9 @@ if(Session::exists('Home')){
 
 
     <div class="login-container">
-        <img class="w-24 ml-auto" src="/register/image/LOGIN.png" alt="">
         <h2 class="text-2xl">Login</h2>
         <p class="my-2">Please sign in to continue.</p>
-        <form action="Includes/login.inc.php" method="post">
+        <form action="" method="post">
             <div class="input-container">
                 <svg class="input-icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -78,25 +106,24 @@ if(Session::exists('Home')){
                         d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75">
                     </path>
                 </svg>
-                <input type="text" id="username" placeholder="Email" name="email" required>
+                <input type="text" id="username" placeholder="Email" name="Email" required>
             </div>
-          <!-- Password -->
-          <div class="input-container relative">
+            <!-- Password -->
+            <div class="input-container relative">
                 <svg class="input-icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z">
                     </path>
                 </svg>
-                <input type="password" id="password" placeholder="Password" name="pass" required>
+                <input type="password" id="password" placeholder="Password" name="Password" required>
                 <button type="button" id="toggle-password" class="absolute right-0 top-0 mt-3 mr-3 text-gray-500">Show</button>
             </div>
-
+            <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
             <div class="input-btn">
 
                 <input type="submit" value="Login">
             </div>
-
             <div class="register">
                 <p>Don't have an account?<a href="../register/register.php">Sign up</a></p>
             </div>

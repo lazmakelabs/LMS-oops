@@ -119,7 +119,7 @@
             </div>
             <div class="hidden md:flex md:space-x-5">
                 <a href="./register.php" class="bg-blue text-white p-3 rounded-lg">Register</a>
-                <a href="./login/login.php" class="my-auto">Log In</a>
+                <a href="./login.php" class="my-auto">Log In</a>
             </div>
         </nav>
         <!-- Small screen menu -->
@@ -128,8 +128,8 @@
                 <li><a href="./" class="block text-black hover:underline">Home</a></li>
                 <li><a href="./Aboutus.html" class="block text-black hover:underline">About us</a></li>
                 <li><a href="./contact.html" class="block text-black hover:underline">Contact</a></li>
-                <li><a href="./register/register.php" class="block text-black hover:underline">Register</a></li>
-                <li><a href="./login/login.php" class="block text-black hover:underline">Log In</a></li>
+                <li><a href="./register.php" class="block text-black hover:underline">Register</a></li>
+                <li><a href="./login.php" class="block text-black hover:underline">Log In</a></li>
             </ul>
         </div>
 
