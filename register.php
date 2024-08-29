@@ -1,50 +1,60 @@
 <?php
-
-require_once "core/init.php";
-
-if (Input::exists()) {
-    if (Token::check(Input::get('token'))) {
-        $validate = new Validate();
-        $validation = $validate->check($_POST, array(
-            'Full_name' => array(
-                'required' => true
-            ),
-            'Phone_number' => array(
-                'required' => true,
-                'length' => true,
-                'unique' => 'users'
-            ),
-            'Email' => array(
-                'required' => true,
-                'valid_email' => true,
-                'unique' => 'users'
-            ),
-            'Password' => array(
-                'required' => true
-            ),
-            'Confirm_Password' => array(
-                'required' => true,
-                'matches' => 'Password'
-            ),
-            'Image' => array(
-                'ext' => ["jpg" => "image/jpeg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png"],
-                'size' => 1 * 1024 * 1024,
-                'dim' => true
-            )
-        ));
-        if ($validation->passed()) {
-            Session::flash('success', 'You registered successfully!');
-            header('Location: login.php');
-        } else {
-                foreach ($validation->errors() as $error) {
-                    $err = str_replace('_', ' ', $error);
-                    echo "<p class='text-red-400'>{$err}</p><br>";
+    require_once "core/init.php";
+    if (Input::exists()) {
+        if (Token::check(Input::get('token'))) {
+            $validate = new Validate();
+            $validation = $validate->check($_POST, array(
+                'Full_name' => array(
+                    'required' => true
+                ),
+                'Phone_number' => array(
+                    'required' => true,
+                    'length' => true,
+                    'unique' => 'users'
+                ),
+                'Email' => array(
+                    'required' => true,
+                    'valid_email' => true,
+                    'unique' => 'users'
+                ),
+                'Password' => array(
+                    'required' => true
+                ),
+                'Confirm_Password' => array(
+                    'required' => true,
+                    'matches' => 'Password'
+                ),
+                'Image' => array(
+                    'ext' => ["jpg" => "image/jpeg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png"],
+                    'size' => 1 * 1024 * 1024,
+                    'dim' => true
+                )
+            ));
+            if ($validation->passed()) {
+                $user = new User();
+                try {
+                    $user->create(array(
+                                'Full_name'=> Input::get('Full_name'),
+                                'Phone_number' => Input::get('Phone_number'),
+                                'Email' => Input::get('Email'),
+                                'Password' => Hash::make(Input::get('Password')),
+                                'Image' => Input::get('Image')
+                            ));
+                } catch(Exception $e) {
+                    die($e->getMessage());
+                }
+                Session::flash('Home', 'You registered successfully!');
+                Redirect::to('login.php');
+            } else {
+                    foreach ($validation->errors() as $error) {
+                        $err = str_replace('_', ' ', $error);
+                        echo "<p class='text-red-400'>{$err}</p><br>";
+                    }
                 }
             }
         }
-    }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -175,7 +185,7 @@ if (Input::exists()) {
                 <input type="submit" value="Sign up">
             </div>
             <div class="register">
-                <p>Already have an account?<a href="../login/login.php"> Sign in</a></p>
+                <p>Already have an account?<a href="../login/login.php"> Sign in </a></p>
             </div>
         </form>
         <!-- PHP file -->

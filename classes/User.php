@@ -3,7 +3,7 @@ class User{
     private $_db;
 
     public function __construct($user=null) {
-        $this->_db::getInstance();
+        $this->_db= DB::getInstance();
     }
 
     public function create($fields = []) 

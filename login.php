@@ -1,8 +1,8 @@
 <?php
 require_once 'core/init.php';
 
-if(Session::exists('success')){
-    echo Session::flash('success');
+if(Session::exists('Home')){
+    echo '<p>' . Session::flash('Home') . '</p>';
 }
 ?>
 <!DOCTYPE html>
