@@ -7,7 +7,7 @@ if(Session::exists('Home')){
 
 
 if(Input::exists()){
-    if (Token::check(Input::get('token'))) {
+    // if (Token::check(Input::get('token'))) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'Email' => array(
@@ -19,19 +19,21 @@ if(Input::exists()){
         ));
         if ($validation -> passed()) {
             $user = new User();
-            $login = $user->login(Input::get('Email'), Input::get('Password'));
+
+            $remember = (Input::get('remember') === 'on')? true : false;
+            $login = $user->login(Input::get('Email'), Input::get('Password'), $remember);
 
             if($login) {
-                echo '<p>Success</p>';
+                Redirect::to('Courses.php');
             } else {
-                echo '<p>Sorry, logging in failed.</p>';
+                $login_fail='Wrong Login credentials';
             }
         } else {
             foreach($validation->errors() as $errors){
-                echo "<p class = 'text-red-400'>".$errors."</p>";
+                $err[]=$errors;
             }
         }
-    }
+    // }
 }
 ?>
 <!DOCTYPE html>
@@ -119,6 +121,11 @@ if(Input::exists()){
                 <input type="password" id="password" placeholder="Password" name="Password" required>
                 <button type="button" id="toggle-password" class="absolute right-0 top-0 mt-3 mr-3 text-gray-500">Show</button>
             </div>
+            <div class="input-container relative">
+                <label for="remember">
+                    <input type="checkbox" name="remember" id="remember">Remember me
+                </label>
+            </div>
             <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
             <div class="input-btn">
 
@@ -128,6 +135,15 @@ if(Input::exists()){
                 <p>Don't have an account?<a href="../register/register.php">Sign up</a></p>
             </div>
         </form>
+        <?php
+        if (!empty($err)){
+            foreach ($err as $error){
+                echo "<p class= 'text-red-400'>".$error."</p>";
+            }
+        } elseif (!empty($login_fail)){
+            echo "<p class= 'text-red-400'>".$login_fail."</p>";
+        }
+        ?>
     </div>
     <footer class="fixed bottom-0 w-full py-5 text-center bg-gray-800 text-white text-sm  mt-10">
         &copy; copyright@<a href="https://makelabs.co.in/ " class="text-sky">makelabs</a>

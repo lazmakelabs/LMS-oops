@@ -15,4 +15,8 @@ class Hash {
             return false;
         }
     }
+
+    public static function unique () {
+        return self::make(uniqid());        
+    }
 }
